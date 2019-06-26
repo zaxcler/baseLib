@@ -30,7 +30,7 @@ class HttpLogger : HttpLoggingInterceptor.Logger{
         }
         mMessage.append(m.plus("\n"))
         // 响应结束，打印整条日志
-        if (message.startsWith("<-- END HTTP")) {
+        if (message.startsWith("<-- END HTTP") || message.startsWith("<-- HTTP FAILED")) {
             ZXLog.d(mMessage.toString())
             mMessage.setLength(0)
         }

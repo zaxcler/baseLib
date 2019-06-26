@@ -80,8 +80,9 @@ class ZXNetManager {
     }
 
     //添加拦截器
-    fun addInterceptor(interceptor: Interceptor) {
+    fun addInterceptor(interceptor: Interceptor):ZXNetManager {
         mInterceptors.add(interceptor)
+        return this
     }
 
     //构建网络请求retrofit
@@ -101,14 +102,16 @@ class ZXNetManager {
                 .readTimeout(mReadTimeout, TimeUnit.SECONDS)
                 .writeTimeout(mWriteTimeout, TimeUnit.SECONDS)
                 .dispatcher(mDispatcher!!)
-
             //添加拦截器
             for (interceptor in mInterceptors) {
                 httpClientBuilder.addInterceptor(interceptor)
             }
+            val netWorkInterceptor =  HttpLoggingInterceptor(HttpLogger())
+            netWorkInterceptor.level = HttpLoggingInterceptor.Level.BODY
             //添加网络日志打印
-            httpClientBuilder.addInterceptor(HttpLoggingInterceptor(HttpLogger()))
-            httpClientBuilder.build()
+            httpClientBuilder.addInterceptor(netWorkInterceptor)
+
+            mOkHttpClient =  httpClientBuilder.build()
         }
         mOkHttpClient?.let {
             mRetrofit = Retrofit.Builder()
@@ -122,7 +125,7 @@ class ZXNetManager {
     }
 
     //创建服务
-    fun <T> creatService(clazz: Class<T>): T? {
+    fun <T> createService(clazz: Class<T>): T? {
         return mRetrofit?.create(clazz)
     }
 

@@ -30,7 +30,7 @@ abstract class RequestEncryptInterceptor : Interceptor {
         val url = request.url()
         val apiPath = "${url.scheme()}://${url.host()}:${url.port()}${url.encodedPath()}".trim()
         //非需要加密的链接不加密
-        if (apiPath.startsWith(mNeedEncryptBaseUrl ?: "")) {
+        if (!apiPath.startsWith(mNeedEncryptBaseUrl ?: "")) {
             return chain.proceed(request)
         }
 
@@ -83,8 +83,6 @@ abstract class RequestEncryptInterceptor : Interceptor {
                     }
                     return chain.proceed(request)
                 } catch (e: Exception) {
-
-                    ZXLog.e("加密异常====》$e")
                     return chain.proceed(request)
                 }
             }

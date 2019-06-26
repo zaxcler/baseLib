@@ -1,7 +1,11 @@
 package com.zaxcler.mvvmdemo
 
 import android.app.Application
+import com.zaxcler.baselib.http.RequestEncryptInterceptor
+import com.zaxcler.baselib.http.ResponseDecryptInterceptor
+import com.zaxcler.baselib.http.ZXNetManager
 import com.zaxcler.baselib.utils.ZXActivityManager
+import com.zaxcler.baselib.utils.ZXLog
 
 /**
  * 类描述：
@@ -15,5 +19,21 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ZXActivityManager.get().registerManager(this)
+        val requestEncryptInterceptor = object : RequestEncryptInterceptor("http://www.zaxcler.top"){
+            override fun encryptBodyParameter(requestData: String?): String? {
+                return ""
+            }
+
+            override fun encryptQueryParameter(apiPath: String, parameter: String?): String? {
+                return ""
+            }
+
+        }
+        ZXNetManager
+            .get()
+            .baseUrl("http://www.zaxcler.top:8080")
+            .addInterceptor(requestEncryptInterceptor)
+            .build()
+        ZXLog.initLog()
     }
 }
