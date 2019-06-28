@@ -1,7 +1,7 @@
 package com.zaxcler.mvvmdemo
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * 类描述：

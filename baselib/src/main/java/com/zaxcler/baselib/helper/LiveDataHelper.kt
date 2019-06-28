@@ -1,6 +1,6 @@
 package com.zaxcler.baselib.helper
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import java.util.*
 
 /**

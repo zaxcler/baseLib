@@ -1,7 +1,6 @@
 package com.zaxcler.baselib.weidget
 
 import android.content.Context
-import android.view.Gravity
 import android.widget.Toast
 
 /**

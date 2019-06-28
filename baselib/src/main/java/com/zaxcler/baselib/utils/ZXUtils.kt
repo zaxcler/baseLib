@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Build
 import android.provider.Settings
-import android.support.v4.content.ContextCompat
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
 import android.webkit.WebSettings
+import androidx.core.content.ContextCompat
 
 /**
  * 类描述：基础的一些工具

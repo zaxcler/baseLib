@@ -1,12 +1,13 @@
 package com.zaxcler.mvvmdemo.ui.main
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.zaxcler.baselib.ext.ToastMsg
 import com.zaxcler.baselib.http.ZXNetManager
 import com.zaxcler.baselib.utils.ZXActivityManager
@@ -14,6 +15,8 @@ import com.zaxcler.baselib.utils.ZXLog
 import com.zaxcler.baselib.weidget.ZXToast
 import com.zaxcler.mvvmdemo.MainActivity
 import com.zaxcler.mvvmdemo.R
+import com.zaxcler.mvvmdemo.R.id.button
+import com.zaxcler.mvvmdemo.R.id.button2
 import com.zaxcler.mvvmdemo.SecondActivity
 import com.zaxcler.mvvmdemo.data.TestApi
 import io.reactivex.Observable
@@ -49,7 +52,8 @@ class MainFragment : Fragment() {
             startActivity(intent)
         }
         button2.setOnClickListener {
-            ZXActivityManager.get().findActivity(MainActivity::class.java.name)
+            ToastMsg(ZXActivityManager.get().findActivity(MainActivity::class.java.name)?.localClassName?:"")
+
         }
         val testApi = ZXNetManager.get().createService(TestApi::class.java)
         testApi?.let {
