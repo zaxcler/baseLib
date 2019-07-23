@@ -4,6 +4,7 @@ import okhttp3.Dispatcher
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,6 +27,7 @@ class ZXNetManager {
     private var mMaxRequests = 64 // 网络请求最大并发数量 默认64
     private var mMaxRequestsPerHost = 10 // 单个域名最大并发数 默认10个
     private var mInterceptors = arrayListOf<Interceptor>() // 添加拦截器
+    private val mCallAdapterFactorys = arrayListOf<CallAdapter.Factory>() //转换器
 
     companion object {
         fun get(): ZXNetManager {
@@ -80,8 +82,14 @@ class ZXNetManager {
     }
 
     //添加拦截器
-    fun addInterceptor(interceptor: Interceptor):ZXNetManager {
+    fun addInterceptor(interceptor: Interceptor): ZXNetManager {
         mInterceptors.add(interceptor)
+        return this
+    }
+
+    //添加转换器
+    fun addCallAdapterFactory(factory: CallAdapter.Factory): ZXNetManager {
+        mCallAdapterFactorys.add(factory)
         return this
     }
 
@@ -106,20 +114,24 @@ class ZXNetManager {
             for (interceptor in mInterceptors) {
                 httpClientBuilder.addInterceptor(interceptor)
             }
-            val netWorkInterceptor =  HttpLoggingInterceptor(HttpLogger())
+            val netWorkInterceptor = HttpLoggingInterceptor(HttpLogger())
             netWorkInterceptor.level = HttpLoggingInterceptor.Level.BODY
             //添加网络日志打印
             httpClientBuilder.addInterceptor(netWorkInterceptor)
 
-            mOkHttpClient =  httpClientBuilder.build()
+            mOkHttpClient = httpClientBuilder.build()
         }
         mOkHttpClient?.let {
-            mRetrofit = Retrofit.Builder()
-                .client(it)
-                .baseUrl(mBaseUrl)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+            val rfBuilder =
+                Retrofit.Builder()
+                    .client(it)
+                    .baseUrl(mBaseUrl)
+            for (f in mCallAdapterFactorys) {
+                rfBuilder.addCallAdapterFactory(f)
+            }
+            mRetrofit = rfBuilder.addConverterFactory(GsonConverterFactory.create())
                 .build()
+
         }
 
     }
