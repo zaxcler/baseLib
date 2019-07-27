@@ -129,6 +129,7 @@ class ZXNetManager {
             for (f in mCallAdapterFactorys) {
                 rfBuilder.addCallAdapterFactory(f)
             }
+            rfBuilder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             mRetrofit = rfBuilder.addConverterFactory(GsonConverterFactory.create())
                 .build()
 
