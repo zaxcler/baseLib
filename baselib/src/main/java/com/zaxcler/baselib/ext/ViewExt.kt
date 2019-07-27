@@ -1,6 +1,7 @@
 package com.zaxcler.baselib.ext
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -125,4 +126,28 @@ fun RecyclerView.getBitmap(): Bitmap? {
         return bitmap
     }
     return null
+}
+
+
+fun Context.getProcessName():String?{
+    val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    val list = activityManager.runningAppProcesses
+    if (list.isNullOrEmpty()){
+        return null
+    }
+    for (info in list){
+        if (info.pid == android.os.Process.myPid()){
+            return info.processName
+        }
+    }
+    return null
+}
+
+fun Context.getAppVersion():String{
+    val info = packageManager.getPackageInfo(packageName,0)
+    return info.versionName
+}
+fun Context.getAppVersionCode():Int{
+    val info = packageManager.getPackageInfo(packageName,0)
+    return info.versionCode
 }

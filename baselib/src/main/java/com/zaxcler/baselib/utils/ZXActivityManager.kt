@@ -19,6 +19,7 @@ class ZXActivityManager {
     private val mActionGroups = WeakHashMap<String, ArrayList<WeakReference<String>>>()//保存一组特定的动作的activity,方便一起关闭
     private var mForegroundActivityCounts = 0 //前台activity数量
     private var mIsAppInForeground = true // app 是否在前台
+    private var mAppStateListener : AppStateChangeListener? =null //前后台切换监听
 
     companion object {
         fun get(): ZXActivityManager {
@@ -41,6 +42,7 @@ class ZXActivityManager {
                     if (mForegroundActivityCounts ==0){
                         //app切换到后台
                         mIsAppInForeground = false
+                        mAppStateListener?.appOnBackground()
                     }
                 }
             }
@@ -50,6 +52,7 @@ class ZXActivityManager {
                     if (mForegroundActivityCounts ==0){
                         //app切换到前台
                         mIsAppInForeground = true
+                        mAppStateListener?.appOnForeground()
                     }
                     mForegroundActivityCounts++
 
@@ -79,6 +82,11 @@ class ZXActivityManager {
             }
 
         })
+    }
+
+    //设置前后台切换监听
+    fun setAppStateChangeLisenter(appStateChangeListener: AppStateChangeListener){
+        this.mAppStateListener = appStateChangeListener
     }
 
     //判断app是否在前台
@@ -166,5 +174,12 @@ class ZXActivityManager {
         }
     }
 
+
+    interface AppStateChangeListener{
+        //app在前台
+        fun appOnForeground()
+        //APP 在后台
+        fun appOnBackground()
+    }
 
 }
