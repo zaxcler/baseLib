@@ -32,43 +32,71 @@ class ZXLog {
 
         fun d(msg: String, vararg args: String) {
             if (printLog) {
-                Logger.d(msg, args)
+                if (args.isEmpty()){
+                    Logger.d(msg)
+                }else{
+                    Logger.d(msg, args)
+                }
             }
         }
 
         fun e(throwable: Throwable?, msg: String, vararg args: String) {
             if (printLog) {
-                Logger.e(throwable, msg, args)
+                if (args.isEmpty()){
+                    Logger.e(throwable, msg)
+                }else{
+                    Logger.e(throwable, msg, args)
+                }
+
             }
         }
 
         fun e(msg: String, vararg args: String) {
-            if (printLog) {
-                Logger.e(msg, args)
+            if (args.isEmpty()){
+                Logger.e(msg)
+            }else{
+                Logger.e( msg, args)
             }
         }
 
         fun i(msg: String, vararg args: String) {
             if (printLog) {
-                Logger.i(msg, args)
+                if (args.isEmpty()){
+                    Logger.i(msg)
+                }else{
+                    Logger.i(msg, args)
+                }
+
             }
         }
 
         fun v(msg: String, vararg args: String) {
             if (printLog) {
-                Logger.v(msg, args)
+                if (args.isEmpty()){
+                    Logger.v(msg)
+                }else{
+                    Logger.v(msg, args)
+                }
             }
         }
 
         fun w(msg: String, vararg args: String) {
             if (printLog) {
-                Logger.w(msg, args)
+                if (args.isEmpty()){
+                    Logger.w(msg)
+                }else{
+                    Logger.w(msg, args)
+                }
             }
         }
 
         fun wtf(msg: String, vararg args: String) {
             if (printLog) {
-                Logger.wtf(msg, args)
+                if (args.isEmpty()){
+                    Logger.wtf(msg)
+                }else{
+                    Logger.wtf(msg, args)
+                }
             }
         }
 
