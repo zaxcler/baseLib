@@ -13,6 +13,7 @@ import okhttp3.Response
 class HeaderInterceptor : Interceptor {
 
     var mHeaders = HashMap<String,String>()
+    var mHeaderInterface : HeaderInterface?  = null
     constructor()
     constructor(headers : HashMap<String,String>){
         mHeaders.putAll(headers)
@@ -20,6 +21,7 @@ class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val builder =  request.newBuilder()
+        mHeaderInterface?.addHeader(mHeaders)
         for (k in mHeaders.keys){
             val v = mHeaders[k]
             v?.let {
@@ -27,6 +29,10 @@ class HeaderInterceptor : Interceptor {
             }
         }
         return chain.proceed(builder.build())
+    }
+
+    interface HeaderInterface{
+        fun addHeader(headers:HashMap<String,String>)
     }
 
 }
