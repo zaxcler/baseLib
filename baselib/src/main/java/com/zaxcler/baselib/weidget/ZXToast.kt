@@ -18,17 +18,18 @@ class ZXToast {
          * @msg 显示的信息
          * @duration 显示时间 0 短 1 长
          */
-        fun show(context: Context,msg: String, duration: Int =0) {
-            if (mToast ==null){
-                mToast  = Toast.makeText(context.applicationContext,msg,duration)
-                mToast?.show()
-            }else{
-                mToast?.cancel()
-                mToast = null
-                mToast  = Toast.makeText(context.applicationContext,msg,duration)
-                mToast?.show()
+        fun show(context: Context,msg: String?, duration: Int =0) {
+            msg?.let {
+                if (mToast ==null){
+                    mToast  = Toast.makeText(context.applicationContext,msg,duration)
+                    mToast?.show()
+                }else{
+                    mToast?.cancel()
+                    mToast = null
+                    mToast  = Toast.makeText(context.applicationContext,msg,duration)
+                    mToast?.show()
+                }
             }
-
         }
     }
 
