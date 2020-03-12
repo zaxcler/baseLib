@@ -44,6 +44,21 @@ fun getScreenSize(): DisplayMetrics {
 }
 
 /**
+ * 获取屏幕宽
+ */
+fun getScreenWidth(): Int {
+    val displayMetrics = Resources.getSystem().displayMetrics
+    return displayMetrics.widthPixels
+}
+/**
+ * 获取屏幕高
+ */
+fun getScreenHeight(): Int {
+    val displayMetrics = Resources.getSystem().displayMetrics
+    return displayMetrics.heightPixels
+}
+
+/**
  * 计算合适的大小
  * @w 用来计算宽高比
  * @h 用来计算宽高比
